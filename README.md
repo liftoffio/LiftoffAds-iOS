@@ -28,10 +28,10 @@ For any other questions, please email sdk@liftoff.io.
 
 ### Latest Releases
 
-- [LiftoffAds SDK](TODO)
+- [LiftoffAds SDK][latest-display-sdk]
 - Mediation Adapter SDKs
-  - [Liftoff MoPub Adapter SDK for MoPub 5.12 and earlier](TODO)
-  - [Liftoff MoPub Adapter SDK for MoPub 5.13 and later](TODO)
+  - [Liftoff MoPub Adapter SDK for MoPub 5.12 and earlier][latest-mopub-pre5.13]
+  - [Liftoff MoPub Adapter SDK for MoPub 5.13 and later][latest-mopub]
 
 ### Supported Devices
 
@@ -73,7 +73,7 @@ continue with [MoPub Mediation](#mopub-mediation).
 
 ### Self Mediation
 
-1. Download and unzip the [LiftoffAds SDK](TODO).
+1. Download and unzip the [LiftoffAds SDK][latest-display-sdk].
 2. Add `LiftoffAds.xcframework` to your app project.
 3. In `General > Frameworks, Libraries, and Embedded Content`, select `Embed &
    Sign` for `LiftoffAds.xcframework`.
@@ -334,13 +334,13 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 
 LiftoffAds is a MoPub custom SDK network.
 
-1. Download and unzip the [LiftoffAds SDK](TODO).
+1. Download and unzip the [LiftoffAds SDK][latest-display-sdk].
 2. Add `LiftoffAds.xcframework` to your app project.
 3. In `General > Frameworks, Libraries, and Embedded Content`, select `Embed &
    Sign` for `LiftoffAds.xcframework`.
 4. Download and unzip the Liftoff MoPub Adapter SDK.
-   - [Liftoff MoPub Adapter SDK for MoPub 5.12 and earlier](TODO)
-   - [Liftoff MoPub Adapter SDK for MoPub 5.13 and later](TODO)
+   - [Liftoff MoPub Adapter SDK for MoPub 5.12 and earlier][latest-mopub-pre5.13]
+   - [Liftoff MoPub Adapter SDK for MoPub 5.13 and later][latest-mopub]
 5. In `General > Frameworks, Libraries, and Embedded Content`, select `Do Not
    Embed` for `LiftoffMoPubAdapter.xcframework`.
 6. In `Build Settings`, add `-ObjC` to `Other Linker Flags` for your build
@@ -436,3 +436,7 @@ the following to your app's plist:
   </dict>
 </array>
 ```
+
+[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.1.0/LiftoffAds-v1.1.0.zip
+[latest-mopub-pre5.13]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v1.1.0/LiftoffMoPubAdapter-v1.1.0.zip
+[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.1.0/LiftoffMoPubAdapter-v2.1.0.zip
