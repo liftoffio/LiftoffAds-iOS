@@ -356,7 +356,7 @@ Instructions for requesting and displaying ads through MoPub can be found in the
 #### MoPub Mediation Swift Integration
 
 ```objective-c
-// Your-Briding-Header.h
+// Bridging-Header.h
 #import "LiftoffMoPubAdapter.h"
 ```
 
