@@ -52,6 +52,10 @@ For any other questions, please email sdk@liftoff.io.
 
 - HTML and HTML video
 - VAST video
+- Rewarded
+
+To serve rewarded ads you must be on version 1.2.0 of the LiftoffAds display SDK
+or later.
 
 ## Development Requirements
 
@@ -175,6 +179,9 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 
   // Called when the user will be directed to an external destination.
   func loInterstitialClickDidTrigger(_ interstitial: LOInterstitial) {}
+
+  // Called when the user has earned a reward by watching a rewarded ad.
+  func loInterstitialWillRewardUser(_ interstitial: LOInterstitial) {}
 
 
   // MARK: LOBannerDelegate implementation
@@ -302,6 +309,9 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 // Called when the user will be directed to an external destination.
 - (void)loInterstitialClickDidTrigger:(LOInterstitial *)interstitial {}
 
+// Called when the user has earned a reward by watching a rewarded ad.
+- (void)loInterstitialWillRewardUser:(LOInterstitial *)interstitial {}
+
 
 #pragma mark - LOBannerDelegate implementation
 
@@ -414,12 +424,14 @@ Liftoff ad network.
 3. After you create an order, create line items for your Liftoff ad units.
    Contact your Liftoff POC to set up ad units and retrieve your ad unit IDs.
 
-The screenshots below show example configurations for Liftoff interstitial and
-banner line items.
+The screenshots below show example configurations for Liftoff interstitial,
+banner, and rewarded line items.
 
 ![](https://user-images.githubusercontent.com/573865/93147923-715b4680-f6a7-11ea-9584-11b2d9377cba.png)
 
 ![](https://user-images.githubusercontent.com/573865/93147999-994aaa00-f6a7-11ea-8e6f-5ba4c6513db0.png)
+
+![](https://user-images.githubusercontent.com/573865/94317378-088f8c00-ff3b-11ea-9c92-f225565abd0e.png)
 
 ## SKAdNetwork
 
@@ -437,6 +449,6 @@ the following to your app's plist:
 </array>
 ```
 
-[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.1.0/LiftoffAds-v1.1.0.zip
-[latest-mopub-pre5.13]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v1.1.0/LiftoffMoPubAdapter-v1.1.0.zip
-[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.1.0/LiftoffMoPubAdapter-v2.1.0.zip
+[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.2.0/LiftoffAds-v1.2.0.zip
+[latest-mopub-pre5.13]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v1.2.0/LiftoffMoPubAdapter-v1.2.0.zip
+[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.2.0/LiftoffMoPubAdapter-v2.2.0.zip
