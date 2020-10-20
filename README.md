@@ -66,7 +66,7 @@ libraries.
 
 To integrate the LiftoffAds display SDK, you will need at minimum:
 
-- macOS 10.4.4 or later
+- macOS 10.14.4 or later
 - XCode 11.3 or later
 
 ## Integration
@@ -377,11 +377,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     let sdkConfig = MPMoPubConfiguration(adUnitIdForAppInitialization: "MOPUB_AD_UNIT_ID")
+
+    // BEGIN: Required for Liftoff custom SDK network.
     sdkConfig.additionalNetworks = [LiftoffAdapterConfiguration.self]
     sdkConfig.setNetwork(
       ["apiKey": "LIFTOFF_API_KEY"],
       forMediationAdapter: "LiftoffAdapterConfiguration"
     )
+    // END
+
     MoPub.sharedInstance().initializeSdk(with: sdkConfig)
 
     return true
@@ -401,9 +405,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:@"MOPUB_AD_UNIT_ID"];
+
+  // BEGIN: Required for Liftoff custom SDK network.
   sdkConfig.additionalNetworks = @[LiftoffAdapterConfiguration.class];
   [sdkConfig setNetworkConfiguration:@{@"apiKey": @"LIFTOFF_API_KEY"}
                  forMediationAdapter:@"LiftoffAdapterConfiguration"];
+  // END
+
   [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{}];
 
   return YES;
@@ -425,13 +433,21 @@ Liftoff ad network.
    Contact your Liftoff POC to set up ad units and retrieve your ad unit IDs.
 
 The screenshots below show example configurations for Liftoff interstitial,
-banner, and rewarded line items.
+banner/medium rectangle, and rewarded line items.
+
+##### Interstitial
 
 ![](https://user-images.githubusercontent.com/573865/93147923-715b4680-f6a7-11ea-9584-11b2d9377cba.png)
 
+##### Banner / Medium Rectangle (MRECT)
+
+Both banner and mrect ads use the `LiftoffBannerCustomEvent` class.
+
 ![](https://user-images.githubusercontent.com/573865/93147999-994aaa00-f6a7-11ea-8e6f-5ba4c6513db0.png)
 
-![](https://user-images.githubusercontent.com/573865/94317378-088f8c00-ff3b-11ea-9c92-f225565abd0e.png)
+##### Rewarded Interstitial
+
+![](https://user-images.githubusercontent.com/573865/96619293-d6afe200-12ba-11eb-8a14-133be3d8f775.png)
 
 ## SKAdNetwork
 
