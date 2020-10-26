@@ -54,7 +54,7 @@ For any other questions, please email sdk@liftoff.io.
 - VAST video
 - Rewarded
 
-To serve rewarded ads you must be on version 1.2.0 of the LiftoffAds display SDK
+To serve rewarded ads you must be on version 1.2.1 of the LiftoffAds display SDK
 or later.
 
 ## Development Requirements
@@ -465,6 +465,6 @@ the following to your app's plist:
 </array>
 ```
 
-[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.2.0/LiftoffAds-v1.2.0.zip
+[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.2.1/LiftoffAds-v1.2.1.zip
 [latest-mopub-pre5.13]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v1.2.0/LiftoffMoPubAdapter-v1.2.0.zip
 [latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.2.0/LiftoffMoPubAdapter-v2.2.0.zip
