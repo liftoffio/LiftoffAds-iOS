@@ -59,15 +59,15 @@ or later.
 
 ## Development Requirements
 
-The LiftoffAds display SDK is written in Swift, compiled with the Swift 5.1
+The LiftoffAds display SDK is written in Swift, compiled with the Swift 5.3
 compiler, and distributed as a binary xcframework. Mediation adapter SDKs
 provided by Liftoff are written in Objective-C and distributed as static
 libraries.
 
 To integrate the LiftoffAds display SDK, you will need at minimum:
 
-- macOS 10.14.4 or later
-- XCode 11.3 or later
+- macOS 10.15.2 or later
+- XCode 11.4 or later
 
 ## Integration
 
@@ -465,6 +465,6 @@ the following to your app's plist:
 </array>
 ```
 
-[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.2.1/LiftoffAds-v1.2.1.zip
+[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.2.2/LiftoffAds-v1.2.2.zip
 [latest-mopub-pre5.13]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v1.2.0/LiftoffMoPubAdapter-v1.2.0.zip
 [latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.2.0/LiftoffMoPubAdapter-v2.2.0.zip
