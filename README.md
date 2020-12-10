@@ -14,14 +14,18 @@ For any other questions, please email sdk@liftoff.io.
   - [Supported Ad Sizes](#supported-ad-sizes)
   - [Supported Ad Types](#supported-ad-types)
 - [Development Requirements](#development-requirements)
-- [Integration](#integration)
-  - [Self Mediation](#self-mediation)
-    - [Self Mediation Swift Integration](#self-mediation-swift-integration)
-    - [Self Mediation Obj-C Integration](#self-mediation-obj-c-integration)
-  - [MoPub Mediation](#mopub-mediation)
-    - [MoPub Mediation Swift Integration](#mopub-mediation-swift-integration)
-    - [MoPub Mediation Obj-C Integration](#mopub-mediation-obj-c-integration)
-    - [MoPub Custom SDK Network](#mopub-custom-sdk-network)
+- [Integrating the SDK](#integrating-the-sdk)
+  - [Downloading the SDK](#downloading-the-sdk)
+    - [CocoaPods](#cocoapods)
+    - [Direct Download](#direct-download)
+  - [Code Changes](#code-changes)
+    - [MoPub Mediation](#mopub-mediation)
+      - [Swift](#swift)
+      - [Objective-C](#objective-c)
+    - [Self Mediation](#self-mediation)
+      - [Swift](#swift-1)
+      - [Objective-C](#objective-c-1)
+  - [Creating a MoPub Custom SDK Network](#creating-a-mopub-custom-sdk-network)
 - [SKAdNetwork](#skadnetwork)
 
 ## Overview
@@ -69,24 +73,147 @@ To integrate the LiftoffAds display SDK, you will need at minimum:
 - macOS 10.15.2 or later
 - XCode 11.4 or later
 
-## Integration
+## Integrating the SDK
+
+### Downloading the SDK
+
+You can either download the SDK through CocoaPods or by downloading it directly.
+
+#### CocoaPods
+
+The easiest way to download the SDK and add it to your project is via CocoaPods.
+
+Using CocoaPods to install the LiftoffAds SDK requires:
+
+- CocoaPods >= 1.10 (since the SDK is packaged as an xcframework)
+- mopub-ios-sdk >= 5.13
+
+You'll need to add Liftoff's spec repository as a source to your Podfile, then
+include `LiftoffAds` as a dependency:
+
+```ruby
+source "https://github.com/liftoffio/liftoff-cocoapods.git"
+source "https://github.com/CocoaPods/Specs.git"
+
+target "MyApp" do
+  pod "LiftoffAds"
+  pod "LiftoffMoPubAdapter" # Only if using MoPub mediation.
+end
+```
+
+#### Direct Download
+
+If you aren't using CocoaPods as described above, you can download the SDK and
+manually add it to your project:
+
+1. Download and unzip the [LiftoffAds SDK][latest-display-sdk].
+2. Add `LiftoffAds.xcframework` to your app's project.
+3. In `General > Frameworks, Libraries, and Embedded Content`, select `Embed &
+   Sign` for `LiftoffAds.xcframework`.
+
+If you aren't using MoPub mediation, continue to [Code changes](#code-changes)
+below. If you *are* using MoPub mediation, download the Liftoff MoPub Adapter
+SDK and add it to your project:
+
+4. Download and unzip the Liftoff MoPub Adapter SDK.
+   - [Liftoff MoPub Adapter SDK for MoPub 5.13 and later][latest-mopub]
+   - [Liftoff MoPub Adapter SDK for MoPub 5.12 and earlier][latest-mopub-pre5.13]
+5. In `General > Frameworks, Libraries, and Embedded Content`, select `Do Not
+   Embed` for `LiftoffMoPubAdapter.xcframework`.
+6. In `Build Settings`, add `-ObjC` to `Other Linker Flags` for your build
+   target.
+
+### Code Changes
 
 We currently support self-mediated setups and MoPub mediation. If you are using
 a self-mediated setup, continue below. Otherwise, skip the section below and
 continue with [MoPub Mediation](#mopub-mediation).
 
-### Self Mediation
+#### MoPub Mediation
 
-1. Download and unzip the [LiftoffAds SDK][latest-display-sdk].
-2. Add `LiftoffAds.xcframework` to your app project.
-3. In `General > Frameworks, Libraries, and Embedded Content`, select `Embed &
-   Sign` for `LiftoffAds.xcframework`.
+LiftoffAds can be added as a MoPub custom SDK network.
+
+Instructions for requesting and displaying ads through MoPub can be found in the
+[MoPub documentation](https://developers.mopub.com/publishers/ios/integrate/).
+
+The following code samples may be used as reference for initializing the
+LiftoffAds iOS SDK through MoPub. Adjust the logic as necessary to meet the
+requirements of your app.
+
+##### Swift
+
+```objective-c
+// Bridging-Header.h
+#if __has_include("LiftoffMoPubAdapter.h")
+  #import <LiftoffMoPubAdapter.h>
+#else
+  #import <LiftoffMoPubAdapter/LiftoffMoPubAdapter.h>
+#endif
+```
+
+```swift
+// AppDelegate.swift
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  func application(_ application: UIApplication,
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    let sdkConfig = MPMoPubConfiguration(adUnitIdForAppInitialization: "MOPUB_AD_UNIT_ID")
+
+    // BEGIN: Required for Liftoff custom SDK network.
+    sdkConfig.additionalNetworks = [LiftoffAdapterConfiguration.self]
+    sdkConfig.setNetwork(
+      ["apiKey": "LIFTOFF_API_KEY"],
+      forMediationAdapter: "LiftoffAdapterConfiguration"
+    )
+    // END
+
+    MoPub.sharedInstance().initializeSdk(with: sdkConfig)
+
+    return true
+  }
+
+  // ...
+}
+```
+
+##### Objective-C
+
+```objective-c
+// AppDelegate.m
+#if __has_include("LiftoffMoPubAdapter.h")
+  #import <LiftoffMoPubAdapter.h>
+#else
+  #import <LiftoffMoPubAdapter/LiftoffMoPubAdapter.h>
+#endif
+
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:@"MOPUB_AD_UNIT_ID"];
+
+  // BEGIN: Required for Liftoff custom SDK network.
+  sdkConfig.additionalNetworks = @[LiftoffAdapterConfiguration.class];
+  [sdkConfig setNetworkConfiguration:@{@"apiKey": @"LIFTOFF_API_KEY"}
+                 forMediationAdapter:@"LiftoffAdapterConfiguration"];
+  // END
+
+  [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{}];
+
+  return YES;
+}
+
+// ...
+
+@end
+```
+
+#### Self Mediation
 
 The following code samples may be used as reference for requesting and
 displaying ads. Adjust the logic as necessary to meet the requirements of your
 app.
 
-#### Self Mediation Swift Integration
+##### Swift
 
 ```swift
 // AppDelegate.swift
@@ -211,7 +338,7 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 }
 ```
 
-#### Self Mediation Obj-C Integration
+##### Objective-C
 
 ```objective-c
 // AppDelegate.m
@@ -340,89 +467,9 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 @end
 ```
 
-### MoPub Mediation
+### Creating a MoPub Custom SDK Network
 
-LiftoffAds is a MoPub custom SDK network.
-
-1. Download and unzip the [LiftoffAds SDK][latest-display-sdk].
-2. Add `LiftoffAds.xcframework` to your app project.
-3. In `General > Frameworks, Libraries, and Embedded Content`, select `Embed &
-   Sign` for `LiftoffAds.xcframework`.
-4. Download and unzip the Liftoff MoPub Adapter SDK.
-   - [Liftoff MoPub Adapter SDK for MoPub 5.12 and earlier][latest-mopub-pre5.13]
-   - [Liftoff MoPub Adapter SDK for MoPub 5.13 and later][latest-mopub]
-5. In `General > Frameworks, Libraries, and Embedded Content`, select `Do Not
-   Embed` for `LiftoffMoPubAdapter.xcframework`.
-6. In `Build Settings`, add `-ObjC` to `Other Linker Flags` for your build
-   target.
-
-The following code samples may be used as reference for initializing the
-LiftoffAds iOS SDK through MoPub. Adjust the logic as necessary to meet the
-requirements of your app.
-
-Instructions for requesting and displaying ads through MoPub can be found in the
-[MoPub documentation](https://developers.mopub.com/publishers/ios/integrate/).
-
-#### MoPub Mediation Swift Integration
-
-```objective-c
-// Bridging-Header.h
-#import "LiftoffMoPubAdapter.h"
-```
-
-```swift
-// AppDelegate.swift
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-    let sdkConfig = MPMoPubConfiguration(adUnitIdForAppInitialization: "MOPUB_AD_UNIT_ID")
-
-    // BEGIN: Required for Liftoff custom SDK network.
-    sdkConfig.additionalNetworks = [LiftoffAdapterConfiguration.self]
-    sdkConfig.setNetwork(
-      ["apiKey": "LIFTOFF_API_KEY"],
-      forMediationAdapter: "LiftoffAdapterConfiguration"
-    )
-    // END
-
-    MoPub.sharedInstance().initializeSdk(with: sdkConfig)
-
-    return true
-  }
-
-  // ...
-}
-```
-
-#### MoPub Mediation Obj-C Integration
-
-```objective-c
-// AppDelegate.m
-#import "LiftoffMoPubAdapter.h"
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  MPMoPubConfiguration *sdkConfig = [[MPMoPubConfiguration alloc] initWithAdUnitIdForAppInitialization:@"MOPUB_AD_UNIT_ID"];
-
-  // BEGIN: Required for Liftoff custom SDK network.
-  sdkConfig.additionalNetworks = @[LiftoffAdapterConfiguration.class];
-  [sdkConfig setNetworkConfiguration:@{@"apiKey": @"LIFTOFF_API_KEY"}
-                 forMediationAdapter:@"LiftoffAdapterConfiguration"];
-  // END
-
-  [[MoPub sharedInstance] initializeSdkWithConfiguration:sdkConfig completion:^{}];
-
-  return YES;
-}
-
-// ...
-
-@end
-```
-
-#### MoPub Custom SDK Network
+*You may skip this section if you are not using MoPub mediation.*
 
 You will need to create a new custom SDK network in the MoPub web portal for the
 Liftoff ad network.
@@ -435,17 +482,17 @@ Liftoff ad network.
 The screenshots below show example configurations for Liftoff interstitial,
 banner/medium rectangle, and rewarded line items.
 
-##### Interstitial
+#### Interstitial
 
 ![](https://user-images.githubusercontent.com/573865/93147923-715b4680-f6a7-11ea-9584-11b2d9377cba.png)
 
-##### Banner / Medium Rectangle (MRECT)
+#### Banner / Medium Rectangle (MRECT)
 
 Both banner and mrect ads use the `LiftoffBannerCustomEvent` class.
 
 ![](https://user-images.githubusercontent.com/573865/93147999-994aaa00-f6a7-11ea-8e6f-5ba4c6513db0.png)
 
-##### Rewarded Interstitial
+#### Rewarded Interstitial
 
 ![](https://user-images.githubusercontent.com/573865/96619293-d6afe200-12ba-11eb-8a14-133be3d8f775.png)
 
