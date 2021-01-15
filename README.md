@@ -27,6 +27,7 @@ For any other questions, please email sdk@liftoff.io.
       - [Objective-C](#objective-c-1)
   - [Creating a MoPub Custom SDK Network](#creating-a-mopub-custom-sdk-network)
 - [SKAdNetwork](#skadnetwork)
+- [Troubleshooting](#troubleshooting)
 
 ## Overview
 
@@ -511,6 +512,19 @@ the following to your app's plist:
   </dict>
 </array>
 ```
+
+## Troubleshooting
+
+Set the log level to `debug` before troubleshooting.
+
+Common integration issues:
+
+- `"No API key provided"`: Missing API key. Verify that you've included the
+  proper initialization code (see above).
+- `"Error authentication: Check API key"`: Incorrect API key. Check for any
+  typos in your API key.
+- `"Unable to fetch ad unit: <PROVIDED_AD_UNIT_ID>"`: Could not fill ad request.
+  Check ad unit ID for typos.
 
 [latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.2.2/LiftoffAds-v1.2.2.zip
 [latest-mopub-pre5.13]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v1.2.0/LiftoffMoPubAdapter-v1.2.0.zip
