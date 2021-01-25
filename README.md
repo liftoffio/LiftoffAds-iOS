@@ -35,8 +35,7 @@ For any other questions, please email sdk@liftoff.io.
 
 - [LiftoffAds SDK][latest-display-sdk]
 - Mediation Adapter SDKs
-  - [Liftoff MoPub Adapter SDK for MoPub 5.12 and earlier][latest-mopub-pre5.13]
-  - [Liftoff MoPub Adapter SDK for MoPub 5.13 and later][latest-mopub]
+  - [Liftoff MoPub Adapter SDK][latest-mopub]
 
 ### Supported Devices
 
@@ -163,7 +162,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // BEGIN: Required for Liftoff custom SDK network.
     sdkConfig.additionalNetworks = [LiftoffAdapterConfiguration.self]
     sdkConfig.setNetwork(
-      ["apiKey": "LIFTOFF_API_KEY"],
+      // Contact your Liftoff POC to retrieve your API key. Define this constant
+      // elsewhere or replace with a hardcoded string.
+      ["apiKey": LIFTOFF_API_KEY],
       forMediationAdapter: "LiftoffAdapterConfiguration"
     )
     // END
@@ -194,7 +195,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   // BEGIN: Required for Liftoff custom SDK network.
   sdkConfig.additionalNetworks = @[LiftoffAdapterConfiguration.class];
-  [sdkConfig setNetworkConfiguration:@{@"apiKey": @"LIFTOFF_API_KEY"}
+  // Contact your Liftoff POC to retrieve your API key. Define this constant
+  // elsewhere or replace with a hardcoded string.
+  [sdkConfig setNetworkConfiguration:@{@"apiKey":LIFTOFF_API_KEY}
                  forMediationAdapter:@"LiftoffAdapterConfiguration"];
   // END
 
@@ -226,7 +229,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Supported log levels: none, info, debug, error.
     Liftoff.logLevel = .error
-    // Contact your Liftoff POC to retrieve your API key.
+    // Contact your Liftoff POC to retrieve your API key. Define this constant
+    // elsewhere or replace with a hardcoded string.
     Liftoff.initWithAPIKey(LIFTOFF_API_KEY)
 
     return true
@@ -350,8 +354,9 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Supported log levels: LOLoggingLevelNone, LOLoggingLevelInfo, LOLoggingLevelDebug, LOLoggingLevelError
   Liftoff.logLevel = LOLoggingLevelError;
-  // Contact your Liftoff POC to retrieve your API key.
-  [Liftoff initWithAPIKey:@"LIFTOFF_API_KEY"];
+  // Contact your Liftoff POC to retrieve your API key. Define this constant
+  // elsewhere or replace with a hardcoded string.
+  [Liftoff initWithAPIKey:LIFTOFF_API_KEY];
 
   return YES;
 }
@@ -526,6 +531,5 @@ Common integration issues:
 - `"Unable to fetch ad unit: <PROVIDED_AD_UNIT_ID>"`: Could not fill ad request.
   Check ad unit ID for typos.
 
-[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.2.2/LiftoffAds-v1.2.2.zip
-[latest-mopub-pre5.13]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v1.2.0/LiftoffMoPubAdapter-v1.2.0.zip
-[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.2.0/LiftoffMoPubAdapter-v2.2.0.zip
+[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.3.0/LiftoffAds-v1.3.0.zip
+[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.2.1/LiftoffMoPubAdapter-v2.2.1.zip
