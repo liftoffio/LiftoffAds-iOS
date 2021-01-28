@@ -14,6 +14,7 @@ For any other questions, please email sdk@liftoff.io.
   - [Supported Ad Sizes](#supported-ad-sizes)
   - [Supported Ad Types](#supported-ad-types)
 - [Development Requirements](#development-requirements)
+  - [SKAdNetwork](#skadnetwork)
 - [Integrating the SDK](#integrating-the-sdk)
   - [Downloading the SDK](#downloading-the-sdk)
     - [CocoaPods](#cocoapods)
@@ -26,7 +27,6 @@ For any other questions, please email sdk@liftoff.io.
       - [Swift](#swift-1)
       - [Objective-C](#objective-c-1)
   - [Creating a MoPub Custom SDK Network](#creating-a-mopub-custom-sdk-network)
-- [SKAdNetwork](#skadnetwork)
 - [Troubleshooting](#troubleshooting)
 
 ## Overview
@@ -73,6 +73,25 @@ To integrate the LiftoffAds display SDK, you will need at minimum:
 - macOS 10.15.2 or later
 - XCode 11.4 or later
 
+### SKAdNetwork
+
+LiftoffAds uses SKAdNetwork in iOS 14+. To enable SKAdNetwork for the LiftoffAds
+network, add the following to your app's plist:
+
+```xml
+<key>SKAdNetworkItems</key>
+<array>
+  <dict>
+    <key>SKAdNetworkIdentifier</key>
+    <string>7UG5ZH24HU.skadnetwork</string>
+  </dict>
+</array>
+```
+
+NOTE: SKAdNetwork is likely to be required for the LiftoffAds network in the
+near future. Your fill rate may drop substantially when this requirement is
+added.
+
 ## Integrating the SDK
 
 ### Downloading the SDK
@@ -115,9 +134,7 @@ If you aren't using MoPub mediation, continue to [Code changes](#code-changes)
 below. If you *are* using MoPub mediation, download the Liftoff MoPub Adapter
 SDK and add it to your project:
 
-4. Download and unzip the Liftoff MoPub Adapter SDK.
-   - [Liftoff MoPub Adapter SDK for MoPub 5.13 and later][latest-mopub]
-   - [Liftoff MoPub Adapter SDK for MoPub 5.12 and earlier][latest-mopub-pre5.13]
+4. Download and unzip the [Liftoff MoPub Adapter SDK][latest-mopub].
 5. In `General > Frameworks, Libraries, and Embedded Content`, select `Do Not
    Embed` for `LiftoffMoPubAdapter.xcframework`.
 6. In `Build Settings`, add `-ObjC` to `Other Linker Flags` for your build
@@ -340,6 +357,18 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
   func loBannerViewControllerForPresentingModalView(_ banner: LOBanner) -> UIViewController? {
     return self
   }
+
+  // Called when a modal view controller will be displayed after a user click.
+  func loBannerModalWillShow(_ banner: LOBanner) {}
+
+  // Called when a modal view controller is displayed after a user click.
+  func loBannerModalDidShow(_ banner: LOBanner) {}
+
+  // Called when a modal view controller will be dismissed.
+  func loBannerModalWillHide(_ banner: LOBanner) {}
+
+  // Called when a modal view controller is dismissed.
+  func loBannerModalDidHide(_ banner: LOBanner) {}
 }
 ```
 
@@ -470,6 +499,18 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
   return self;
 }
 
+// Called when a modal view controller will be displayed after a user click.
+- (void)loBannerModalWillShow:(LOBanner *)banner {}
+
+// Called when a modal view controller is displayed after a user click.
+- (void)loBannerModalDidShow:(LOBanner *)banner {}
+
+// Called when a modal view controller will be dismissed.
+- (void)loBannerModalWillHide:(LOBanner *)banner {}
+
+// Called when a modal view controller is dismissed.
+- (void)loBannerModalDidHide:(LOBanner *)banner {}
+
 @end
 ```
 
@@ -502,22 +543,6 @@ Both banner and mrect ads use the `LiftoffBannerCustomEvent` class.
 
 ![](https://user-images.githubusercontent.com/573865/96619293-d6afe200-12ba-11eb-8a14-133be3d8f775.png)
 
-## SKAdNetwork
-
-Liftoff is ready to support the upcoming changes to SKAdNetwork in iOS 14. To
-enable SKAdNetwork for the LiftoffAds iOS SDK, which may increase your eCPM, add
-the following to your app's plist:
-
-```xml
-<key>SKAdNetworkItems</key>
-<array>
-  <dict>
-    <key>SKAdNetworkIdentifier</key>
-    <string>7UG5ZH24HU.skadnetwork</string>
-  </dict>
-</array>
-```
-
 ## Troubleshooting
 
 Set the log level to `debug` before troubleshooting.
@@ -531,5 +556,5 @@ Common integration issues:
 - `"Unable to fetch ad unit: <PROVIDED_AD_UNIT_ID>"`: Could not fill ad request.
   Check ad unit ID for typos.
 
-[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.3.0/LiftoffAds-v1.3.0.zip
-[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.2.1/LiftoffMoPubAdapter-v2.2.1.zip
+[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.3.1/LiftoffAds-v1.3.1.zip
+[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.3.0/LiftoffMoPubAdapter-v2.3.0.zip
