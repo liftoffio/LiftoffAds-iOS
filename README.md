@@ -89,8 +89,8 @@ network, add the following to your app's plist:
 ```
 
 NOTE: SKAdNetwork is likely to be required for the LiftoffAds network in the
-near future. Your fill rate may drop substantially when this requirement is
-added.
+near future. When this requirement is added, your fill rate may drop substantially
+if you do not include the plist entry above.
 
 ## Integrating the SDK
 
