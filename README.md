@@ -26,7 +26,9 @@ For any other questions, please email sdk@liftoff.io.
     - [Self Mediation](#self-mediation)
       - [Swift](#swift-1)
       - [Objective-C](#objective-c-1)
+    - [GDPR/CCPA and User Consent](#gdprccpa-and-user-consent)
   - [Creating a MoPub Custom SDK Network](#creating-a-mopub-custom-sdk-network)
+- [COPPA](#coppa)
 - [Troubleshooting](#troubleshooting)
 
 ## Overview
@@ -58,9 +60,6 @@ For any other questions, please email sdk@liftoff.io.
 - VAST video
 - Rewarded
 
-To serve rewarded ads you must be on version 1.2.1 of the LiftoffAds display SDK
-or later.
-
 ## Development Requirements
 
 The LiftoffAds display SDK is written in Swift, compiled with the Swift 5.3
@@ -68,10 +67,11 @@ compiler, and distributed as a binary xcframework. Mediation adapter SDKs
 provided by Liftoff are written in Objective-C and distributed as static
 libraries.
 
-To integrate the LiftoffAds display SDK, you will need at minimum:
+To integrate the latest version of the LiftoffAds display SDK, you will need at
+minimum:
 
-- macOS 10.15.2 or later
-- XCode 11.4 or later
+- macOS >= 11 (Big Sur)
+- XCode >= 12.5
 
 ### SKAdNetwork
 
@@ -89,29 +89,26 @@ network, add the following to your app's plist:
 ```
 
 NOTE: SKAdNetwork is likely to be required for the LiftoffAds network in the
-near future. When this requirement is added, your fill rate may drop substantially
-if you do not include the plist entry above.
+near future. When this requirement is added, your fill rate may drop
+substantially if you do not include the plist entry above.
 
 ## Integrating the SDK
 
 ### Downloading the SDK
 
-You can either download the SDK through CocoaPods or by downloading it directly.
+You can download the SDK through CocoaPods or directly.
 
 #### CocoaPods
 
-The easiest way to download the SDK and add it to your project is via CocoaPods.
-
-Using CocoaPods to install the LiftoffAds SDK requires:
+The easiest way to add the LiftoffAds SDK to your project is via CocoaPods. This
+requires:
 
 - CocoaPods >= 1.10 (since the SDK is packaged as an xcframework)
 - mopub-ios-sdk >= 5.13
 
-You'll need to add Liftoff's spec repository as a source to your Podfile, then
-include `LiftoffAds` as a dependency:
+Include `LiftoffAds` as a dependency in your PodFile:
 
 ```ruby
-source "https://github.com/liftoffio/liftoff-cocoapods.git"
 source "https://github.com/CocoaPods/Specs.git"
 
 target "MyApp" do
@@ -142,9 +139,9 @@ SDK and add it to your project:
 
 ### Code Changes
 
-We currently support self-mediated setups and MoPub mediation. If you are using
-a self-mediated setup, continue below. Otherwise, skip the section below and
-continue with [MoPub Mediation](#mopub-mediation).
+We currently support MoPub mediation and self-mediated setups. If you are using
+a self-mediated setup, skip the section below and continue with [Self
+Mediation](#self-mediation).
 
 #### MoPub Mediation
 
@@ -514,6 +511,26 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 @end
 ```
 
+#### GDPR/CCPA and User Consent
+
+LiftoffAds complies with the EU's General Data Protection Regulation (GDPR) and
+the California Consumer Privacy Act (CCPA). However, LiftoffAds does not
+currently manage its own consent mechanism, so you will be required to pass user
+consent information to our SDK. The following code samples can be used as
+reference:
+
+##### Swift
+
+```swift
+LOPrivacySettings.setHasUserConsent(true)
+```
+
+##### Objective-C
+
+```objective-c
+[LOPrivacySettings setHasUserConsent:true];
+```
+
 ### Creating a MoPub Custom SDK Network
 
 *You may skip this section if you are not using MoPub mediation.*
@@ -523,15 +540,11 @@ Liftoff ad network.
 
 1. Create a new custom SDK network for Liftoff in [MoPub Networks](https://app.mopub.com/networks).
 2. Create a new order for Liftoff in [MoPub Orders](https://app.mopub.com/orders).
-3. After you create an order, create line items for your Liftoff ad units.
-   Contact your Liftoff POC to set up ad units and retrieve your ad unit IDs.
+3. Create line items for your Liftoff ad units. Contact your Liftoff POC to set
+   up ad units and retrieve your ad unit IDs.
 
-The screenshots below show example configurations for Liftoff interstitial,
-banner/medium rectangle, and rewarded line items.
-
-#### Interstitial
-
-![](https://user-images.githubusercontent.com/573865/93147923-715b4680-f6a7-11ea-9584-11b2d9377cba.png)
+The screenshots below show example configurations for Liftoff banner/medium
+rectangle, standard interstitial, and rewarded interstitial line items.
 
 #### Banner / Medium Rectangle (MRECT)
 
@@ -539,9 +552,20 @@ Both banner and mrect ads use the `LiftoffBannerCustomEvent` class.
 
 ![](https://user-images.githubusercontent.com/573865/93147999-994aaa00-f6a7-11ea-8e6f-5ba4c6513db0.png)
 
+#### Interstitial
+
+![](https://user-images.githubusercontent.com/573865/93147923-715b4680-f6a7-11ea-9584-11b2d9377cba.png)
+
 #### Rewarded Interstitial
 
 ![](https://user-images.githubusercontent.com/573865/96619293-d6afe200-12ba-11eb-8a14-133be3d8f775.png)
+
+## COPPA
+
+LiftoffAds does not serve end users who fall under the restrictions of the
+Children’s Online Privacy Protection Act (COPPA), specifically age 12 years and
+younger. If you collect information that indicates a user falls under this
+category, you must not use the LiftoffAds SDK for the user's sessions.
 
 ## Troubleshooting
 
@@ -556,5 +580,5 @@ Common integration issues:
 - `"Unable to fetch ad unit: <PROVIDED_AD_UNIT_ID>"`: Could not fill ad request.
   Check ad unit ID for typos.
 
-[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.4.2/LiftoffAds-v1.4.2.zip
+[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.5.0/LiftoffAds-v1.5.0.zip
 [latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.3.0/LiftoffMoPubAdapter-v2.3.0.zip
