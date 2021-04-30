@@ -101,11 +101,10 @@ You can download the SDK through CocoaPods or directly.
 
 #### CocoaPods
 
-The easiest way to add the LiftoffAds SDK to your project is via CocoaPods. This
-requires:
+**Only CocoaPods versions >= 1.10 are supported since the SDK is packaged as an
+xcframework.**
 
-- CocoaPods >= 1.10 (since the SDK is packaged as an xcframework)
-- mopub-ios-sdk >= 5.13
+The easiest way to add the LiftoffAds SDK to your project is via CocoaPods.
 
 Include `LiftoffAds` as a dependency in your PodFile:
 
@@ -114,7 +113,7 @@ source "https://github.com/CocoaPods/Specs.git"
 
 target "MyApp" do
   pod "LiftoffAds"
-  pod "LiftoffMoPubAdapter" # Only if using MoPub mediation.
+  pod "LiftoffMoPubAdapter" # Only if you are using MoPub mediation.
 end
 ```
 
@@ -128,9 +127,8 @@ manually add it to your project:
 3. In `General > Frameworks, Libraries, and Embedded Content`, select `Embed &
    Sign` for `LiftoffAds.xcframework`.
 
-If you aren't using MoPub mediation, continue to [Code changes](#code-changes)
-below. If you *are* using MoPub mediation, download the Liftoff MoPub Adapter
-SDK and add it to your project:
+Only if you are using MoPub mediation, download the Liftoff MoPub Adapter SDK
+and add it to your project:
 
 4. Download and unzip the [Liftoff MoPub Adapter SDK][latest-mopub].
 5. In `General > Frameworks, Libraries, and Embedded Content`, select `Do Not
@@ -145,6 +143,9 @@ a self-mediated setup, skip the section below and continue with [Self
 Mediation](#self-mediation).
 
 #### MoPub Mediation
+
+**Only MoPub SDK versions >= 5.13 are supported. The latest Liftoff MoPub
+adapter requires MoPub SDK >= 5.17.**
 
 LiftoffAds can be added as a MoPub custom SDK network.
 
@@ -270,9 +271,9 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
     // NOTE: Liftoff interstitial and banner objects cannot be reused to request
     // multiple ads. You must initialize a new object for each ad request.
 
-    loInterstitial = Liftoff.initInterstitialAdUnit(for: LIFTOFF_INTERSTITIAL_AD_UNIT)
-    loInterstitial.delegate = self
-    loInterstitial.requestAd()
+    self.loInterstitial = Liftoff.initInterstitialAdUnit(for: LIFTOFF_INTERSTITIAL_AD_UNIT)
+    self.loInterstitial.delegate = self
+    self.loInterstitial.requestAd()
 
     // The size argument may be any CGSize, but we recommend choosing from a
     // preset list of sizes from LOConstants (a 0 indicates a flexible
@@ -284,14 +285,13 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
     // mediumRectangle          = CGSize(width: 300, height: 250)
     // mediumRectangleFlexWidth = CGSize(width:   0, height: 250)
     // flexAll                  = CGSize.zero
-    loBanner = Liftoff.initBannerAdUnit(for: LIFTOFF_BANNER_AD_UNIT, size: LOConstants.phoneBanner)
-    loBanner.delegate = self
-    loBanner.requestAd()
+    self.loBanner = Liftoff.initBannerAdUnit(for: LIFTOFF_BANNER_AD_UNIT, size: LOConstants.phoneBanner)
+    self.loBanner.delegate = self
+    self.loBanner.requestAd()
   }
 
 
   // MARK: LOInterstitialDelegate implementation
-  // NOTE: These are optional implementations.
 
   // Called when the interstitial ad request is successfully filled.
   func loInterstitialDidLoad(_ interstitial: LOInterstitial) {
@@ -301,8 +301,8 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 
     // To instead display the interstitial at an appropriate time as determined
     // by your app UX:
-    // if loInterstitial.ready {
-    //   loInterstitial.showAd(with: self)
+    // if self.loInterstitial.ready {
+    //   self.loInterstitial.showAd(with: self)
     // }
   }
 
@@ -332,7 +332,6 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 
 
   // MARK: LOBannerDelegate implementation
-  // NOTE: These are optional implementations.
 
   // Called when the banner ad request is successfully filled. The view argument
   // is the banner's UIView.
@@ -367,6 +366,9 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 
   // Called when a modal view controller is dismissed.
   func loBannerModalDidHide(_ banner: LOBanner) {}
+
+  // Called when the user will be directed to an external destination.
+  func loBannerWillLeaveApplication(_ banner: LOBanner)
 }
 ```
 
@@ -420,10 +422,10 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
   // The size argument may be any CGSize, but we recommend choosing from a
   // preset list of sizes from LOConstants (a 0 indicates a flexible
   // dimension):
-  // phoneBanner              = CGSizeMake(320, 50);
-  // phoneBannerFlexWidth     = CGSizeMake(  0, 50);
-  // tabletBanner             = CGSizeMake(728, 90);
-  // tabletBannerFlexWidth    = CGSizeMake(  0, 90);
+  // phoneBanner              = CGSizeMake(320,  50);
+  // phoneBannerFlexWidth     = CGSizeMake(  0,  50);
+  // tabletBanner             = CGSizeMake(728,  90);
+  // tabletBannerFlexWidth    = CGSizeMake(  0,  90);
   // mediumRectangle          = CGSizeMake(300, 250):
   // mediumRectangleFlexWidth = CGSizeMake(  0, 250);
   // flexAll                  = CGSizeZero;
@@ -509,6 +511,9 @@ class ViewController: UIViewController, LOInterstitialDelegate, LOBannerDelegate
 // Called when a modal view controller is dismissed.
 - (void)loBannerModalDidHide:(LOBanner *)banner {}
 
+// Called when the user will be directed to an external destination.
+- (void)loBannerWillLeaveApplication:(LOBanner *)banner {}
+
 @end
 ```
 
@@ -593,5 +598,5 @@ Common integration issues:
 - `"Unable to fetch ad unit: <PROVIDED_AD_UNIT_ID>"`: Could not fill ad request.
   Check ad unit ID for typos.
 
-[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.5.0/LiftoffAds-v1.5.0.zip
-[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.3.0/LiftoffMoPubAdapter-v2.3.0.zip
+[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.6.0/LiftoffAds-v1.6.0.zip
+[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.4.0/LiftoffMoPubAdapter-v2.4.0.zip
