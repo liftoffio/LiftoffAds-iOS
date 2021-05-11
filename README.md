@@ -27,6 +27,7 @@ For any other questions, please email sdk@liftoff.io.
       - [Swift](#swift-1)
       - [Objective-C](#objective-c-1)
     - [GDPR/CCPA and User Consent](#gdprccpa-and-user-consent)
+    - [Test Ad Units](#test-ad-units)
   - [Creating a MoPub Custom SDK Network](#creating-a-mopub-custom-sdk-network)
 - [COPPA](#coppa)
 - [Troubleshooting](#troubleshooting)
@@ -530,6 +531,18 @@ LOPrivacySettings.setHasUserConsent(true)
 ```objective-c
 [LOPrivacySettings setHasUserConsent:true];
 ```
+
+#### Test Ad Units
+
+Use the following ad unit IDs to display a LiftoffAds test creative and verify
+successful integration.
+
+| Ad Unit ID                        | Size           | Type                       |
+| --------------------------------- | -------------- | -------------------------- |
+| `liftoff-banner-mrect-test`       | Banner / MRECT | VAST video, HTML video     |
+| `liftoff-interstitial-video-test` | Interstitial   | VAST video                 |
+| `liftoff-interstitial-html-test`  | Interstitial   | HTML video                 |
+| `liftoff-rewarded-video-test`     | Rewarded Interstitial | VAST video          |
 
 ### Creating a MoPub Custom SDK Network
 
