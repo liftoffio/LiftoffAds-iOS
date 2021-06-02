@@ -145,7 +145,7 @@ Mediation](#self-mediation).
 #### MoPub Mediation
 
 **Only MoPub SDK versions >= 5.13 are supported. The latest Liftoff MoPub
-adapter requires MoPub SDK >= 5.17.**
+adapter requires MoPub SDK >= 5.16.**
 
 LiftoffAds can be added as a MoPub custom SDK network.
 
@@ -599,4 +599,4 @@ Common integration issues:
   Check ad unit ID for typos.
 
 [latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.6.0/LiftoffAds-v1.6.0.zip
-[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.4.0/LiftoffMoPubAdapter-v2.4.0.zip
+[latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.4.1/LiftoffMoPubAdapter-v2.4.1.zip
