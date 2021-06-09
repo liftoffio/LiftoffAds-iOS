@@ -598,5 +598,5 @@ Common integration issues:
 - `"Unable to fetch ad unit: <PROVIDED_AD_UNIT_ID>"`: Could not fill ad request.
   Check ad unit ID for typos.
 
-[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.6.0/LiftoffAds-v1.6.0.zip
+[latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.6.1/LiftoffAds-v1.6.1.zip
 [latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.4.1/LiftoffMoPubAdapter-v2.4.1.zip
