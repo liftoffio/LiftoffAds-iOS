@@ -31,6 +31,7 @@ For any other questions, please email sdk@liftoff.io.
   - [Creating a MoPub Custom SDK Network](#creating-a-mopub-custom-sdk-network)
 - [COPPA](#coppa)
 - [Troubleshooting](#troubleshooting)
+- [Reporting](#reporting)
 
 ## Overview
 
@@ -597,6 +598,32 @@ Common integration issues:
   typos in your API key.
 - `"Unable to fetch ad unit: <PROVIDED_AD_UNIT_ID>"`: Could not fill ad request.
   Check ad unit ID for typos.
+
+## Reporting
+
+Reporting is available via programmatic API or scheduled emails.
+
+* [Reporting API documentation](https://liftoff.io/support/publisher-reporting-api/)
+* To receive scheduled email reports, contact your Liftoff POC with your desired
+  recipient email addresses. By default, you will receive daily and monthly
+  reports. The columns below are included; for further customization, contact
+  your Liftoff POC.
+  * Date
+  * OS
+  * Bundle
+  * Ad Unit
+  * Ad Unit ID
+  * Country
+  * Rewarded
+  * Size
+  * Requests
+  * Fills
+  * Fill Rate
+  * Impressions
+  * Clicks
+  * CTR
+  * Revenue
+  * eCPM
 
 [latest-display-sdk]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/v1.6.1/LiftoffAds-v1.6.1.zip
 [latest-mopub]: https://github.com/liftoffio/LiftoffAds-iOS/releases/download/mopub-v2.4.1/LiftoffMoPubAdapter-v2.4.1.zip
