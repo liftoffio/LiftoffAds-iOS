@@ -567,15 +567,27 @@ rectangle, standard interstitial, and rewarded interstitial line items.
 
 #### Banner / Medium Rectangle (MRECT)
 
-Both banner and mrect ads use the `LiftoffBannerCustomEvent` class.
+Both banner and mrect ads use the same custom event class.
+
+Custom event class: `LiftoffBannerCustomEvent`
+
+Custom event data: `{"adUnitID": "LIFTOFF_BANNER_AD_UNIT_ID"}`
 
 ![](https://user-images.githubusercontent.com/573865/93147999-994aaa00-f6a7-11ea-8e6f-5ba4c6513db0.png)
 
 #### Interstitial
 
+Custom event class: `LiftoffInterstitialCustomEvent`
+
+Custom event data: `{"adUnitID": "LIFTOFF_INTERSTITIAL_AD_UNIT_ID"}`
+
 ![](https://user-images.githubusercontent.com/573865/93147923-715b4680-f6a7-11ea-9584-11b2d9377cba.png)
 
 #### Rewarded Interstitial
+
+Custom event class: `LiftoffRewardedInterstitialCustomEvent`
+
+Custom event data: `{"adUnitID": "LIFTOFF_REWARDED_INTERSTITIAL_AD_UNIT_ID"}`
 
 ![](https://user-images.githubusercontent.com/573865/96619293-d6afe200-12ba-11eb-8a14-133be3d8f775.png)
 
